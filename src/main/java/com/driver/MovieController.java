@@ -16,57 +16,57 @@ public class MovieController {
     MovieService movieService;
 
     @PostMapping("/add-movie")
-    public ResponseEntity addMovie(@RequestBody Movie movie){
+    public ResponseEntity<String> addMovie(@RequestBody Movie movie){
         String ans = movieService.addMovie(movie);
         return new ResponseEntity(ans, HttpStatus.OK);
     }
 
     @PostMapping("/add-director")
-    public ResponseEntity addDirector(@RequestBody Director director){
+    public ResponseEntity<String> addDirector(@RequestBody Director director){
             String ans = movieService.addDirector(director);
-            return new ResponseEntity(ans, HttpStatus.OK);
+            return new ResponseEntity<>(ans, HttpStatus.OK);
     }
     @PutMapping("/add-movie-director-pair")
-    public ResponseEntity addMovieDirectorPair(@RequestParam String moviename, @RequestParam String directorname){
+    public ResponseEntity<String> addMovieDirectorPair(@RequestParam String moviename, @RequestParam String directorname){
         movieService.addMovieDirectorPair(moviename, directorname);
-        return new ResponseEntity("Pair is add successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("Pair is add successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/get-movie-by-name/{name}")
-    public ResponseEntity getMovieByName(@PathVariable String name){
+    public ResponseEntity<Movie> getMovieByName(@PathVariable String name){
        Movie movie = movieService.getMovieByName(name);
-       if(movie!=null) return new ResponseEntity(movie, HttpStatus.FOUND);
-       else return new ResponseEntity("Not Found", HttpStatus.NOT_FOUND);
+       if(movie!=null) return new ResponseEntity<>(movie, HttpStatus.FOUND);
+       else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     @GetMapping("/get-director-by-name/{name}")
-    public ResponseEntity getDirectorByName(@PathVariable String name){
+    public ResponseEntity<Director> getDirectorByName(@PathVariable String name){
        Director director = movieService.getDirectorByName(name);
-       if(director!=null) return new ResponseEntity(director, HttpStatus.FOUND);
-       else return new ResponseEntity("Not Found", HttpStatus.NOT_FOUND);
+       if(director!=null) return new ResponseEntity<>(director, HttpStatus.FOUND);
+       else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/get-movies-by-director-name/{director}")
-    public ResponseEntity getMoviesByDirectorName(@PathVariable String director){
+    public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable String director){
         List<String> list = movieService.getMoviesByDirectorName(director);
-        return new ResponseEntity(list, HttpStatus.FOUND);
+        return new ResponseEntity<>(list, HttpStatus.FOUND);
     }
 
     @GetMapping("/get-all-movies")
-    public ResponseEntity findAllMovies(){
+    public ResponseEntity<List<String>> findAllMovies(){
         List<String> list = movieService.findAllMovies();
-        return new ResponseEntity(list, HttpStatus.FOUND);
+        return new ResponseEntity<>(list, HttpStatus.FOUND);
     }
 
     @DeleteMapping("/delete-director-by-name")
-    public ResponseEntity deleteDirectorByName(@RequestParam String directorname){
+    public ResponseEntity<String> deleteDirectorByName(@RequestParam String directorname){
         movieService.deleteDirectorByName(directorname);
-        return new ResponseEntity("Director and files are deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Director and files are deleted", HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-all-directors")
-    public ResponseEntity deleteAllDirectors(){
+    public ResponseEntity<String> deleteAllDirectors(){
         movieService.deleteAllDirectors();
-        return new ResponseEntity("All are deleted", HttpStatus.OK);
+        return new ResponseEntity<>("All are deleted", HttpStatus.OK);
     }
 
 
