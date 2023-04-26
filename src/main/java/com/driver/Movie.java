@@ -11,6 +11,8 @@ public class Movie {
         this.imdbRating = imdbRating;
     }
 
+    public Movie(){}
+
     public String getName() {
         return name;
     }
